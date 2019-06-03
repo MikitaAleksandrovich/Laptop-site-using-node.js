@@ -8,6 +8,7 @@ const laptopData = JSON.parse(json);
 const server = http.createServer((req, res) => {
 
     const pathName = url.parse(req.url, true).pathname;
+    console.log(pathName);
     const id = url.parse(req.url, true).query.id;
 
 
@@ -38,6 +39,16 @@ const server = http.createServer((req, res) => {
             res.end(output);
         }); 
     }
+
+
+    // IMAGES
+    else if ((/\.(jpg|jpeg|png|gif)$/i).test(pathName)) {
+        fs.readFile(`${__dirname}/data/img/${pathName}`, (err, data) => {
+            res.writeHead(200, { 'Content-type': 'text/html' });
+            res.end(data);
+        });
+    }   
+
 
     // URL NOT FOUND
     else {
